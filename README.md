@@ -16,7 +16,7 @@ Make sure you have **npm** installed.
 
 ### 2. Setup
 
-Open a terminal in the project directory and run:
+Open a terminal in client/ and run:
 
 ```bash
 npm init -y
