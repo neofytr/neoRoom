@@ -42,6 +42,12 @@ Then, replace your `package.json` with the following:
 npm start
 ```
 
+To run the app on a POSIX-compliant machine (eg. Linux), open a terminal in linuxClient/ and do the following
+
+```bash
+npm start
+```
+
 ---
 
 ##  Android Client
