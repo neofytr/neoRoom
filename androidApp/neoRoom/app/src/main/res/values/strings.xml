@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Chat Room</string>
+    <string name="app_logo">App Logo</string>
+    <string name="welcome_message">Enter your name to join the chat room</string>
+    <string name="your_name">Your Name</string>
+    <string name="connect">Connect</string>
+    <string name="connecting">Connecting…</string>
+    <string name="type_message">Type a message…</string>
+</resources>
