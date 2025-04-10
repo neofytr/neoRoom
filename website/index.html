@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>neoRoom Chat</title>
     <link rel="icon" type="image/png"
         href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.5.0/collection/components/icon/svg/chatbubble-ellipses.svg">
@@ -13,6 +13,10 @@
 
 <body>
     <div class="app-container">
+        <button id="menu-toggle" class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
         <div class="sidebar">
             <div class="logo">
                 <i class="fas fa-comment-dots"></i>
@@ -44,7 +48,7 @@
                     <span id="status-text">Disconnected</span>
                 </div>
                 <div class="server-info">
-                    <p>Server: ws://51.21.195.200:8080</p>
+                    <p>Server: <span id="server-address">Secure Connection</span></p>
                 </div>
             </div>
         </div>

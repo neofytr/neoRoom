@@ -1,10 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
 :root {
   --primary: #3498db;
   --primary-dark: #2980b9;
@@ -46,18 +39,52 @@
   --scrollbar-thumb: #7f8c8d;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
   background-color: var(--bg-color);
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
   transition: background-color var(--transition-speed) ease;
   color: var(--text-color);
 }
 
 .app-container {
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  min-height: 100vh;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile menu toggle */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .sidebar {
@@ -67,7 +94,26 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  transition: background var(--transition-speed) ease;
+  transition: all var(--transition-speed) ease;
+  z-index: 100;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    transform: translateX(-100%);
+    position: fixed;
+    height: 100%;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
 }
 
 .logo {
@@ -251,8 +297,15 @@ input:checked + .slider:before {
   transition: background-color var(--transition-speed) ease;
 }
 
+@media (max-width: 768px) {
+  .chat-container {
+    width: 100%;
+    height: 100vh;
+  }
+}
+
 .chat-header {
-  padding: 20px;
+  padding: 15px 20px;
   border-bottom: 1px solid var(--border-color);
   background-color: var(--card-bg);
   transition: background-color var(--transition-speed) ease,
@@ -271,13 +324,19 @@ input:checked + .slider:before {
 
 .messages-container {
   flex: 1;
-  padding: 20px;
+  padding: 15px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
   background-color: var(--bg-color);
   transition: background-color var(--transition-speed) ease;
+}
+
+@media (max-width: 768px) {
+  .messages-container {
+    padding: 10px;
+  }
 }
 
 .welcome-message {
@@ -315,6 +374,12 @@ input:checked + .slider:before {
   transition: background-color var(--transition-speed) ease,
     box-shadow var(--transition-speed) ease;
   animation: message-fade-in 0.3s ease-out;
+}
+
+@media (max-width: 576px) {
+  .message {
+    max-width: 90%;
+  }
 }
 
 @keyframes message-fade-in {
@@ -374,15 +439,22 @@ input:checked + .slider:before {
   display: block;
   margin-top: 4px;
   line-height: 1.4;
+  word-break: break-word;
 }
 
 .input-container {
   display: flex;
-  padding: 16px;
+  padding: 12px;
   background-color: var(--card-bg);
   border-top: 1px solid var(--border-color);
   transition: background-color var(--transition-speed) ease,
     border-color var(--transition-speed) ease;
+}
+
+@media (max-width: 576px) {
+  .input-container {
+    padding: 8px;
+  }
 }
 
 .input-container input {
@@ -395,6 +467,12 @@ input:checked + .slider:before {
   background-color: var(--input-bg);
   color: var(--text-color);
   transition: all 0.2s ease;
+}
+
+@media (max-width: 576px) {
+  .input-container input {
+    padding: 10px 12px;
+  }
 }
 
 .input-container input:focus {
@@ -421,6 +499,13 @@ input:checked + .slider:before {
   justify-content: center;
 }
 
+@media (max-width: 576px) {
+  .input-container button {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .input-container button:hover {
   background-color: var(--primary-dark);
   transform: scale(1.05);
@@ -445,6 +530,15 @@ input:checked + .slider:before {
   animation: notification-slide-in 0.3s ease-out;
   max-width: 300px;
   transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+@media (max-width: 576px) {
+  .notification {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: calc(100% - 20px);
+  }
 }
 
 @keyframes notification-slide-in {
@@ -475,6 +569,7 @@ input:checked + .slider:before {
   transform: translateY(-10px);
 }
 
+
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -490,4 +585,23 @@ input:checked + .slider:before {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #95a5a6;
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .sidebar {
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .chat-container {
+    height: 100vh;
+  }
+
+  .input-container {
+    padding: 8px;
+  }
+
+  .messages-container {
+    padding: 8px;
+  }
 }
