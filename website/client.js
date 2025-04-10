@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("theme-toggle");
   const reconnectBtn = document.getElementById("reconnect-btn");
 
-  const serverAddr = "wss://51.21.195.200:8080";
+  const serverAddr = "ws://51.21.195.200:8080";
   let socket = null;
   let connected = false;
   let username = "";
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       socket.onerror = (err) => {
         showStatus(
-          `Connection error. Please check if the server is running with SSL enabled.`,
+          `Connection error. Please check if the server is running.`,
           "error"
         );
         connected = false;

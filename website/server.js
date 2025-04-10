@@ -2,13 +2,9 @@ const fs = require("fs");
 const https = require("https");
 const WebSocket = require("ws");
 
-// SSL certificate configuration
-// NOTE: You'll need to replace these with your actual certificate paths
 const SSL_OPTIONS = {
-  key: fs.readFileSync("/path/to/private-key.pem"),
-  cert: fs.readFileSync("/path/to/certificate.pem"),
-  // If you have a CA certificate chain:
-  // ca: fs.readFileSync('/path/to/ca-certificate.pem')
+  // key: fs.readFileSync("/path/to/private-key.pem"),
+  // cert: fs.readFileSync("/path/to/certificate.pem"),
 };
 
 const PORT = 8080;
