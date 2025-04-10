@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("theme-toggle");
   const reconnectBtn = document.getElementById("reconnect-btn");
 
-  const serverAddr = "ws://51.21.195.200:8080";
+  const serverAddr = "wss://51.21.195.200:8080";
   let socket = null;
   let connected = false;
   let username = "";
@@ -88,13 +88,21 @@ document.addEventListener("DOMContentLoaded", () => {
       socket.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
+
           if (data.type === "message") {
             addMessage("received", `${data.username}: ${data.content}`);
+            updateUnreadCount();
           } else if (data.type === "system") {
             addMessage("system", data.content);
+          } else if (data.type === "userCount") {
+            const onlineCountElement = document.getElementById("online-count");
+            if (onlineCountElement) {
+              onlineCountElement.textContent = `${data.count} online`;
+            }
           }
         } catch (e) {
           addMessage("received", event.data);
+          updateUnreadCount();
         }
       };
 
@@ -110,7 +118,10 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       socket.onerror = (err) => {
-        showStatus(`Connection error`, "error");
+        showStatus(
+          `Connection error. Please check if the server is running with SSL enabled.`,
+          "error"
+        );
         connected = false;
         socket = null;
         disableChat();
@@ -155,7 +166,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = messageInput.value.trim();
     if (message) {
       try {
-        // Send formatted message
         socket.send(
           JSON.stringify({
             type: "message",
@@ -163,7 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
           })
         );
 
-        // Add to UI
         addMessage("sent", `${username}: ${message}`);
 
         messageInput.value = "";
@@ -333,15 +342,5 @@ document.addEventListener("DOMContentLoaded", () => {
       unreadCount++;
       document.title = `(${unreadCount}) ${originalTitle}`;
     }
-  }
-
-  if (socket) {
-    const originalOnMessage = socket.onmessage;
-    socket.onmessage = function (event) {
-      updateUnreadCount();
-      if (originalOnMessage) {
-        originalOnMessage(event);
-      }
-    };
   }
 });
