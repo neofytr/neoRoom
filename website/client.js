@@ -8,14 +8,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusText = document.getElementById("status-text");
   const themeToggle = document.getElementById("theme-toggle");
   const reconnectBtn = document.getElementById("reconnect-btn");
+  const menuToggle = document.getElementById("menu-toggle");
+  const sidebar = document.querySelector(".sidebar");
 
-  const serverAddr = "ws://51.21.195.200:8080";
+  const domain = window.location.hostname;
+  const protocol = window.location.protocol === "https:" ? "wss://" : "ws://";
+  const port = ":8080";
+  const serverAddr = `${protocol}${domain}${port}`;
+
   let socket = null;
   let connected = false;
   let username = "";
   let reconnectAttempts = 0;
   const MAX_RECONNECT_ATTEMPTS = 5;
   const RECONNECT_DELAY = 3000; // 3 seconds
+
+  if (menuToggle) {
+    menuToggle.addEventListener("click", () => {
+      sidebar.classList.toggle("show-sidebar");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (
+        window.innerWidth <= 768 &&
+        sidebar.classList.contains("show-sidebar") &&
+        !sidebar.contains(e.target) &&
+        e.target !== menuToggle
+      ) {
+        sidebar.classList.remove("show-sidebar");
+      }
+    });
+  }
+
+  window.addEventListener("orientationchange", () => {
+    setTimeout(() => {
+      smoothScrollToBottom();
+    }, 100);
+  });
 
   function initTheme() {
     const savedTheme = localStorage.getItem("theme") || "light";
@@ -81,6 +110,13 @@ document.addEventListener("DOMContentLoaded", () => {
         messageInput.disabled = false;
         sendBtn.disabled = false;
         messageInput.focus();
+
+        if (
+          window.innerWidth <= 768 &&
+          sidebar.classList.contains("show-sidebar")
+        ) {
+          sidebar.classList.remove("show-sidebar");
+        }
 
         addMessage("system", `You've joined the chat as ${name}!`);
       };
@@ -343,4 +379,26 @@ document.addEventListener("DOMContentLoaded", () => {
       document.title = `(${unreadCount}) ${originalTitle}`;
     }
   }
+
+  nameInput.addEventListener("focus", () => {
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        nameInput.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    }
+  });
+
+  messageInput.addEventListener("focus", () => {
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 300);
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) {
+      sidebar.classList.remove("show-sidebar");
+    }
+  });
 });
