@@ -1,18 +1,15 @@
-const fs = require("fs");
-const https = require("https");
+const http = require("http");
 const WebSocket = require("ws");
 
-const SSL_OPTIONS = {
-  // key: fs.readFileSync("/path/to/private-key.pem"),
-  // cert: fs.readFileSync("/path/to/certificate.pem"),
-};
-
 const PORT = 8080;
-const server = https.createServer(SSL_OPTIONS);
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("WebSocket server running");
+});
 
 const wss = new WebSocket.Server({ server });
 
-console.log(`Secure WebSocket server starting on port ${PORT}`);
+console.log(`WebSocket server starting on port ${PORT}`);
 
 const clients = new Map();
 
@@ -125,7 +122,5 @@ process.on("SIGINT", () => {
 });
 
 server.listen(PORT, () => {
-  console.log(
-    `Secure WebSocket server is running on wss://your-domain:${PORT}`
-  );
+  console.log(`WebSocket server is running on ws://localhost:${PORT}`);
 });
